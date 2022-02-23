@@ -11,7 +11,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxt/http": "nuxt/http",
+    "@nuxt/http": "^0.5.12",
+    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/proxy": "^2.0.1",
     "cross-env": "^5.2.0",
     "font-awesome": "^4.7.0",
     "lodash.truncate": "^4.4.2",

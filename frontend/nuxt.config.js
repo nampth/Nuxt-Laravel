@@ -52,7 +52,10 @@ module.exports = {
     */
     plugins: [
         '@/plugins/vuetify',
-        '@/plugins/vee-validate'
+        '@/plugins/mixins/validation',
+        '@/plugins/axios.js',
+        '@/plugins/helpers.js',
+        '@/plugins/constants.js'
     ],
 
     /*
@@ -90,12 +93,19 @@ module.exports = {
     auth: {
         strategies: {
             facebook: {
-                endpoints: {
-                    userInfo: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday'
-                },
-                clientId: '266546391059558',
+                userinfo_endpoint: 'https://graph.facebook.com/v2.12/me?fields=about,name,picture{url},email,birthday',
+                client_id: '266546391059558',
                 scope: ['public_profile', 'email']
             },
-        }
-    }
+        },
+        redirect: {
+            callback: "/login",
+            home: false
+        },
+    },
+    axios: {
+        baseURL: 'http://localhost/demo-shop/backend/public/api',
+        proxyHeaders: true,
+        credentials: true
+    },
 }

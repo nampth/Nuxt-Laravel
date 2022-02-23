@@ -23,12 +23,12 @@
                                 <v-btn icon @click="loginWithFacebook">
                                     <v-icon color="blue">fa fa-facebook-square fa-lg</v-icon>
                                 </v-btn>
-                                <v-btn icon>
-                                    <v-icon color="red">fa fa-google fa-lg</v-icon>
-                                </v-btn>
-                                <v-btn icon>
-                                    <v-icon color="light-blue">fa fa-twitter fa-lg</v-icon>
-                                </v-btn>
+                                <!--<v-btn icon>-->
+                                    <!--<v-icon color="red">fa fa-google fa-lg</v-icon>-->
+                                <!--</v-btn>-->
+                                <!--<v-btn icon>-->
+                                    <!--<v-icon color="light-blue">fa fa-twitter fa-lg</v-icon>-->
+                                <!--</v-btn>-->
                                 <v-spacer></v-spacer>
                                 <v-btn block color="primary" @click="login" :loading="loading">Login</v-btn>
                             </v-card-actions>
@@ -53,16 +53,39 @@
             }
         }),
         mounted() {
+            this.handleAccessToken();
         },
         methods: {
             login() {
-                this.loading = true;
-                setTimeout(() => {
-                    // this.$router.push('/dashboard');
-                }, 1000);
+
             },
             loginWithFacebook(){
                 this.$auth.loginWith('facebook');
+            },
+            handleAccessToken(){
+                let vm = this;
+                let url_string = window.location.href;
+
+                if (url_string.indexOf('access_token=') >= 0) {
+                    let token = url_string.match(/access_token[^&]*/);
+                    token = token[0].split('=');
+                    token = token[1];
+                    vm.$axios.post('/auth/login-social', {
+                        'access_token': token,
+                    }).then(response => {
+                        if (response.data && response.data.success) {
+
+                        } else {
+
+                        }
+                    }).catch(err => {
+                        vm.loggedIn = 0;
+                        vm.$auth.logout();
+                        // vm.$toast.error('Có lỗi xảy ra. Vui lòng thử lại sau');
+                    });
+                } else {
+                    // vm.$router.push('/');
+                }
             }
         }
 
